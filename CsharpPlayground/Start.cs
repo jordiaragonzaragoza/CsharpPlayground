@@ -8,6 +8,7 @@ namespace CsharpPlayground
     using InterfaceExplicitly;
     using IntefaceAndGenerics;
     using ImplementingCollectionInterfaces;
+    using LearningDelegates;
 
     public class Start
     {
@@ -33,18 +34,20 @@ namespace CsharpPlayground
             //ThrowingCustomExceptionWithTheOriginal.Start();
 
             //Generics.Start();
-            
+
             //ExtensionMethods.Start();
-            
+
             //OverridingMethods.Start();
-            
+
             //ImplicitExplicitConversion.Start();
-            
+
             //InterfaceExplicitly.Start();
 
-            IntefaceAndGenerics.Start();
+            //IntefaceAndGenerics.Start();
 
             //ImplementingCollectionInterfaces.Start();
+
+            LearningDelegates.Start();
         }
     }
 }
