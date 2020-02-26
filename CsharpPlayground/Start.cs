@@ -13,6 +13,7 @@ namespace CsharpPlayground
     using ImplementingCollectionInterfaces;
     using LearningDelegates;
     using LambdaIntroduction;
+    using LearningAttributes;
 
     public class Start
     {
@@ -33,7 +34,7 @@ namespace CsharpPlayground
             //CustomEventArguments.Start();
             //RaisingEventsWithExceptionHandling.Start();
 
-            LambdaIntroduction.Start();
+            //LambdaIntroduction.Start();
 
             //SubscriberRaisingEventsWithExceptionHandling.Start();
 
@@ -56,6 +57,8 @@ namespace CsharpPlayground
             //IntefaceAndGenerics.Start();
 
             //ImplementingCollectionInterfaces.Start();
+
+            LearningAttributes.Start();
 
 
 
