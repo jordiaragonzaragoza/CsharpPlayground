@@ -12,6 +12,7 @@ namespace CsharpPlayground
     using IntefaceAndGenerics;
     using ImplementingCollectionInterfaces;
     using LearningDelegates;
+    using LambdaIntroduction;
 
     public class Start
     {
@@ -30,7 +31,9 @@ namespace CsharpPlayground
             //ActionExposeEventSubscriber.Start();
 
             //CustomEventArguments.Start();
-            RaisingEventsWithExceptionHandling.Start();
+            //RaisingEventsWithExceptionHandling.Start();
+
+            LambdaIntroduction.Start();
 
             //SubscriberRaisingEventsWithExceptionHandling.Start();
 
