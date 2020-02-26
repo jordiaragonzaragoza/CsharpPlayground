@@ -1,6 +1,9 @@
 ﻿
+using RaisingEventsWithExceptionHandlingSubscriber;
+
 namespace CsharpPlayground
 {
+    using CustomEventArguments;
     using Generics;
     using ExtensionMethods;
     using OverridingMethods;
@@ -15,6 +18,9 @@ namespace CsharpPlayground
        
         public static void Main(string[] args)
         {
+            //LearningDelegates.Start();
+
+            //LearningEvents.LearningEvents.Start();
 
             //UsingDelegate.Start();
             //MulticastDelegate.Start();
@@ -23,9 +29,10 @@ namespace CsharpPlayground
 
             //ActionExposeEventSubscriber.Start();
 
-            //CustomEventArgumentsSubscriber.Start();
+            //CustomEventArguments.Start();
+            RaisingEventsWithExceptionHandling.Start();
 
-            //RaisingEventsWithExceptionHandlingSubscriber.Start();
+            //SubscriberRaisingEventsWithExceptionHandling.Start();
 
             //ExceptionHandlingInspecting.Start();
 
@@ -47,7 +54,9 @@ namespace CsharpPlayground
 
             //ImplementingCollectionInterfaces.Start();
 
-            LearningDelegates.Start();
+
+
+
         }
     }
 }

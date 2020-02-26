@@ -2,6 +2,14 @@
 
 namespace LearningDelegates
 {
+    /***Summary***/
+
+    //Delegate is a generic form to send a method as parameter to other method.
+
+    //Action:    works as delegate but it returns void
+    //Predicate: works as delegate but it returns a bool
+    //Func:      works as delegate but with a required output of any type.
+    
     //Declare a delegate. It is not required inside a class.
     public delegate void PrintDelegate(string value);
 
@@ -10,6 +18,7 @@ namespace LearningDelegates
 
     public static class LearningDelegates
     {
+        //Delegate with input and output in a class
         public delegate bool BoolDelegate(string text, int number);
 
         public static void Start()
@@ -65,7 +74,7 @@ namespace LearningDelegates
 
         public static void DelegateUsingAction()
         {
-            //Action always return void. Allows to 16 parameters.
+            //Action works as delegate but it returns void. Allows to 16 input parameters.
             Action<string> consolePrintAction = ConsolePrint;
             consolePrintAction("I'm an action.");
         }
@@ -76,7 +85,7 @@ namespace LearningDelegates
             Action<string> consolePrintAnonymousAction = delegate(string value) { Console.WriteLine(value); };
             consolePrintAnonymousAction("I'm an action using an anonymous method");
 
-            //Now using a new anonymous method to print on console.
+            //Now using a new anonymous method with lambda to print on console.
             Action<string> consolePrintAnonymousLambdaAction = value => Console.WriteLine(value);
             consolePrintAnonymousLambdaAction("I'm an action using an anonymous method with lambda");
 
@@ -84,7 +93,7 @@ namespace LearningDelegates
 
         public static void DelegateUsingFunc()
         {
-            //Func is similar to Action. But latest parameter is the output.
+            //Func works as delegate but with a required output of any type. Allows to 16 input parameters. Latest parameter is the output.
             //Func will be used massive on LINQ
 
             Func<string, string> consolePrintAnonymousFunc = delegate(string value)
@@ -106,7 +115,7 @@ namespace LearningDelegates
 
         public static void DelegateUsingPredicate()
         {
-            //Similar to Func but Predicate always return true or false
+            //Predicate works as delegate but it returns a bool. Allows to 16 input parameters.
 
             Predicate<int> adult = value => value > 17;
             var isAdult = adult(25);
