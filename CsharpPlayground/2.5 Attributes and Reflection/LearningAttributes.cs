@@ -12,19 +12,10 @@ namespace LearningAttributes
         {
             CheckAttributeDefined(typeof(Person), typeof(SerializableAttribute));
             SearchConditionStringOnConditionalAttribute(typeof(Person), typeof(ConditionalAttribute));
-            ReflectionToExecuteAMethod();
-
+            
             Console.ReadLine();
         }
-
-        private static void ReflectionToExecuteAMethod()
-        {
-            var i = 42;
-            var compareToMethod = i.GetType().GetMethod("CompareTo",new Type[] { typeof(int) });
-
-            var result = (int)compareToMethod.Invoke(i, new object[] { 41 });
-        }
-
+        
         public static bool CheckAttributeDefined(Type element, Type attributeType)
         {
             if (Attribute.IsDefined(element, attributeType))
