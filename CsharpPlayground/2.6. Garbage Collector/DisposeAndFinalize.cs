@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 
 namespace DisposeAndFinalize
 {
@@ -8,6 +9,16 @@ namespace DisposeAndFinalize
         public static void Start()
         {
             var unmanagedWrapper = new UnmanagedWrapper();
+
+            var stringWriter = new StringWriter();
+            using (XmlWriter writer = XmlWriter.Create(stringWriter))
+            {
+                writer.WriteStartElement("book");
+                writer.WriteElementString("price", "19.95");
+                writer.WriteEndElement();
+                writer.Flush();
+            }
+            string xml = stringWriter.ToString();
 
             Console.ReadLine();
         }

@@ -67,6 +67,8 @@ namespace CsharpPlayground
 
             DisposeAndFinalize.Start();
 
+            StringsAdvanced.Start();
+
 
 
 
