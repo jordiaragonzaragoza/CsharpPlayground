@@ -43,31 +43,33 @@ namespace ThrowingCustomExceptionWithTheOriginal
         }
 
         public MessageQueueException(int id)
-        {
-            Id = id;
+            : this(id, null, null)
+        {   
         }
 
-        public MessageQueueException(int id, string message) : base(message)
-        {
-            Id = id;
+        public MessageQueueException(int id, string message) 
+            : this (id, message, null)
+        {   
         }
 
-        public MessageQueueException(int id, string message, Exception innerException) : base(message, innerException)
+        public MessageQueueException(int id, string message, Exception innerException) 
+            : base(message, innerException)
         {
             Id = id;
         }
     }
     
-    public class OrderProcessingException : MessageQueueException
+    public sealed class OrderProcessingException : MessageQueueException
     {
-        public OrderProcessingException(int orderId) : base(orderId)
+        public OrderProcessingException(int orderId) 
+            : this(orderId, null)
         {
-            HelpLink = "http://www.mydomain.com/infoaboutexception";
+            
         }
         public OrderProcessingException(int orderId, string message)
-            : base(orderId, message)
+            : this(orderId, message, null)
         {
-            HelpLink = "http://www.mydomain.com/infoaboutexception";
+            
         }
         public OrderProcessingException(int orderId, string message, Exception innerException)
             : base(orderId, message, innerException)
@@ -76,7 +78,7 @@ namespace ThrowingCustomExceptionWithTheOriginal
         }
 
         //makes sure that your exception can be serialized and works correctly across application domains
-        protected OrderProcessingException(SerializationInfo info, StreamingContext context)
+        private OrderProcessingException(SerializationInfo info, StreamingContext context)
         {
             if (info == null)
             {

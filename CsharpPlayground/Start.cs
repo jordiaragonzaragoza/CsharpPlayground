@@ -14,6 +14,7 @@ namespace CsharpPlayground
     using LearningDelegates;
     using LambdaIntroduction;
     using LearningAttributes;
+    using ThrowingCustomExceptionWithTheOriginal;
 
     public class Start
     {
@@ -42,7 +43,7 @@ namespace CsharpPlayground
 
             //ExceptionDispatchInfoThrow.Start();
 
-            //ThrowingCustomExceptionWithTheOriginal.Start();
+            ThrowingCustomExceptionWithTheOriginal.Start();
 
             //Generics.Start();
 
@@ -58,7 +59,7 @@ namespace CsharpPlayground
 
             //ImplementingCollectionInterfaces.Start();
 
-            LearningAttributes.Start();
+            //LearningAttributes.Start();
 
 
 
