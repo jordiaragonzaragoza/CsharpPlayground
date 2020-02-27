@@ -102,6 +102,8 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
             _publisher.OnChange -= OnChangeFistHandler;
             _publisher.OnChange -= OnChangeExceptionHandler;
             _publisher.OnChange -= OnChangeSecondHandler;
+
+            System.GC.SuppressFinalize(this);
         }
     }
 }

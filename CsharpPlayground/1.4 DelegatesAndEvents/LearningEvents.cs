@@ -75,6 +75,7 @@ namespace LearningEvents
         {
             Publisher.OnSumExecuted -= OnSumExecutedHandler;
             Publisher.OnSubtractionExecuted -= OnSubtractionExecutedHandler;
+            System.GC.SuppressFinalize(this);
         }
     }
 }

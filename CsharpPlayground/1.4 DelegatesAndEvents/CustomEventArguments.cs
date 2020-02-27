@@ -70,6 +70,7 @@ namespace CustomEventArguments
         public void Dispose()
         {
             _publisher.OnChange -= _publisher_OnChange;
+            System.GC.SuppressFinalize(this);
         }
     }
 }

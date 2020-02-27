@@ -16,6 +16,7 @@ namespace CsharpPlayground
     using LearningAttributes;
     using ThrowingCustomExceptionWithTheOriginal;
     using LearningReflection;
+    using DisposeAndFinalize;
 
     public class Start
     {
@@ -62,7 +63,9 @@ namespace CsharpPlayground
 
             //LearningAttributes.Start();
 
-            LearningReflection.Start();
+            //LearningReflection.Start();
+
+            DisposeAndFinalize.Start();
 
 
 
