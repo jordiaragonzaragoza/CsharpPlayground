@@ -12,133 +12,101 @@ namespace LearningAsyncAwait
         //después, proseguir la ejecución cuando dicha tarea se complete
         //https://docs.microsoft.com/es-es/dotnet/csharp/programming-guide/concepts/async/?WT.mc_id=EducationalAdvancedCsharp-c9-niner
 
+        //Cualquier método async devuelve una Task por defecto  donde recogemos su estado
+
         public static async Task Start()
         {
-            Coffee cup = PourCoffee();
-            Console.WriteLine("-----coffee is ready");
-            var eggsTask =  FryEggsAsync(2);
-            var baconTask = FryBaconAsync(3);
-            var toastTask = MakeToastWithButterAndJamAsync(2);
+            Init();
 
-            // <SnippetAwaitAnyTask>
-            var allTasks = new List<Task> { eggsTask, baconTask, toastTask };
+            var oneSecondTask = OneSecondTaskAsync();
+            var threeSecondsTask =  ThreeSecondsTaskAsync();
+            var fourSecondsTask = FourSecondsTaskAsync();
+
+            var allTasks = new List<Task> { threeSecondsTask, fourSecondsTask, oneSecondTask };
             while (allTasks.Any())
             {
-                Task finished = await Task.WhenAny(allTasks);
-                if (finished == eggsTask)
+                var finishedTask = await Task.WhenAny(allTasks);
+                if (finishedTask == threeSecondsTask)
                 {
-                    Console.WriteLine("-----eggs are ready");
+                    Console.WriteLine($"Result from task ThreeSeconds is: {threeSecondsTask.Result}");
+                    Console.WriteLine();
                 }
-                else if (finished == baconTask)
+                else if (finishedTask == fourSecondsTask)
                 {
-                    Console.WriteLine("-----bacon is ready");
+                    Console.WriteLine($"Result from task FourSecondsTask is: {fourSecondsTask.Result}");
+                    Console.WriteLine();
                 }
-                else if (finished == toastTask)
+                else if (finishedTask == oneSecondTask)
                 {
-                    Console.WriteLine("-----toast is ready");
+                    Console.WriteLine($"Result from task OneSecondTask is: {oneSecondTask.Result}");
+                    Console.WriteLine();
                 }
-                allTasks.Remove(finished);
+                allTasks.Remove(finishedTask);
             }
-            Juice oj = PourOJ();
-            Console.WriteLine("-----oj is ready");
-            Console.WriteLine("-----Breakfast is ready!");
-            // </SnippetAwaitAnyTask>
 
-            Console.ReadLine();
-
+            Finish();
         }
 
-
-        // </SnippetMain>
-        private static Coffee PourCoffee()
+        private static void Init()
         {
-            Console.WriteLine("Pouring coffee");
-            return new Coffee();
+            Console.WriteLine("Method Init()");
         }
 
-        private static Juice PourOJ()
+        private static void Finish()
         {
-            Console.WriteLine("Pouring Orange Juice");
-            return new Juice();
+            Console.WriteLine("Method Finish()");
         }
-
-        private static void ApplyJam(Toast toast) => Console.WriteLine("Putting jam on the toast");
-
-        private static void ApplyButter(Toast toast) => Console.WriteLine("Putting butter on the toast");
-
-        private static async Task<Egg> FryEggsAsync(int howMany)
+        
+        private static async Task<int> ThreeSecondsTaskAsync()
         {
-            Console.WriteLine("-----Task FryEggsAsync sent");
+            Console.WriteLine("-----Task ThreeSecondsTaskAsync sent");
             Console.WriteLine($"Thead: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine();
 
-            Console.WriteLine("Warming the egg pan...");
             await Task.Delay(3000);
-            Console.WriteLine($"cracking {howMany} eggs");
-            Console.WriteLine("cooking the eggs ...");
-            await Task.Delay(3000);
-            Console.WriteLine("Put eggs on plate");
-            return new Egg();
+            Console.WriteLine("-----Task ThreeSecondsTaskAsync done!");
+
+            return 3;
         }
 
-        private static async Task<Bacon> FryBaconAsync(int slices)
+        private static async Task<int> FourSecondsTaskAsync()
         {
-            Console.WriteLine("-----Task FryBaconAsync sent");
+            Console.WriteLine("-----Task FourSecondsTaskAsync sent");
             Console.WriteLine($"Thead: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine();
 
-            Console.WriteLine($"putting {slices} of bacon in the pan");
-            Console.WriteLine("cooking first side of bacon...");
-            await Task.Delay(3000);
-            for (int slice = 0; slice < slices; slice++)
-                Console.WriteLine("flipping a slice of bacon");
-            Console.WriteLine("cooking the second side of bacon...");
-            await Task.Delay(3000);
-            Console.WriteLine("Put bacon on plate");
-            return new Bacon();
+            await Task.Delay(4000);
+            Console.WriteLine("-----Task FourSecondsTaskAsync done!");
+
+            return 4;
         }
 
-        private static async Task<Toast> MakeToastWithButterAndJamAsync(int number)
+        private static async Task<int> OneSecondTaskAsync()
         {
-            Console.WriteLine("-----Task MakeToastWithButterAndJamAsync sent");
+            Console.WriteLine("-----Task OneSecondTaskAsync sent");
             Console.WriteLine($"Thead: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine();
 
             //Composed tasks: async task + sync task = async task
-            var toast = await ToastBreadAsync(number); //Async task
-            ApplyButter(toast);// Sync task
-            ApplyJam(toast);// Sync task
-            return toast;
+            var returnedValue = await TenSecondsAsync(); //Async task
+            //Do something with the returned value...
+            
+            await Task.Delay(1000);
+            Console.WriteLine("-----Task OneSecondTaskAsync done!");
+
+            return 1;
         }
 
-        private static async Task<Toast> ToastBreadAsync(int slices)
+        private static async Task<int> TenSecondsAsync()
         {
-            Console.WriteLine("-----Task FryBaconAsync sent");
+            Console.WriteLine("-----Task TenSecondsAsync sent");
             Console.WriteLine($"Thead: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine();
 
-            for (int slice = 0; slice < slices; slice++)
-                Console.WriteLine("Putting a slice of bread in the toaster");
-            Console.WriteLine("Start toasting...");
-            await Task.Delay(3000);
-            Console.WriteLine("Remove toast from toaster");
-            return new Toast();
+            await Task.Delay(10000);
+            Console.WriteLine("-----Task TenSecondsAsync done!");
+
+            return 10;
         }
-    }
-
-    public class Bacon
-    {
-    }
-
-    public class Egg
-    {
-    }
-
-    public class Toast
-    {
-    }
-
-    public class Juice
-    {
-    }
-
-    public class Coffee
-    {
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Threading.Tasks;
 using RaisingEventsWithExceptionHandlingSubscriber;
 
@@ -25,7 +26,7 @@ namespace CsharpPlayground
     public class Start
     {
        
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             //LearningDelegates.Start();
 
@@ -73,7 +74,9 @@ namespace CsharpPlayground
 
             //StringsAdvanced.Start();
 
-            await LearningAsyncAwait.Start();
+            LearningAsyncAwait.Start();
+
+            Console.ReadLine();
         }
     }
 }
