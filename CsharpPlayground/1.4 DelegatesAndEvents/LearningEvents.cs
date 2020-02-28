@@ -8,8 +8,8 @@ namespace LearningEvents
         {
             var subscriber = new Subscriber();
 
-            //Publisher.Sum(5,6);
-            //Publisher.Subtraction(1,1);
+            Publisher.Sum(5,6);
+            Publisher.Subtraction(1,1);
             Publisher.Multiply(5, 5);
 
             Console.ReadLine();
@@ -57,18 +57,41 @@ namespace LearningEvents
 
         public delegate bool MultiplyEventHandler (object sender, MultiplyEventArgs e);
         //Assigning the default delegate to avoid null if no one is subscribed. In addition you will always receive true by default.
-        public static event MultiplyEventHandler OnMultiplyDone = defaultOnMultiplyDoneHandler;
+        private static event MultiplyEventHandler _onMultiplyDone = defaultOnMultiplyDoneHandler;
         private static bool defaultOnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
         {
             return true;
         }
 
+        //The event implementation uses a public field, you can still customize addition and removal of subscribers.
+        //This is called a custom event accessor
+        //It’s important to put a lock around adding and removing
+        //subscribers to make sure that the operation is thread safe.
+        public static event MultiplyEventHandler OnMultiplyDone
+        {
+            add
+            {
+                lock (_onMultiplyDone)
+                {
+                    _onMultiplyDone += value;
+                }
+            }
+
+            remove
+            {
+                lock (_onMultiplyDone)
+                {
+                    _onMultiplyDone -= value;
+                }
+            }
+        }
+        
         public static void Multiply(int a, int b)
         {
             var operation = a * b;
-            var returnedValue = OnMultiplyDone(null, new MultiplyEventArgs(operation, "Multiply had been executed"));
+            var returnedValue = _onMultiplyDone(null, new MultiplyEventArgs(operation, "Multiply had been executed"));
 
-            if (OnMultiplyDone == defaultOnMultiplyDoneHandler)
+            if (_onMultiplyDone == defaultOnMultiplyDoneHandler)
             {
                 //Default value
                 Console.WriteLine($"Multiply done. But no subscribers.");
