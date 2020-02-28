@@ -11,7 +11,9 @@ namespace StringsAdvanced
     {
         public static void Start()
         {
+            StringBuilder();
             StringBuilderReader();
+            MiscStringMethods();
         }
 
         public static void StringBuilder()

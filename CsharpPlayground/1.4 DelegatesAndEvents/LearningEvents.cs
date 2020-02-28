@@ -8,8 +8,9 @@ namespace LearningEvents
         {
             var subscriber = new Subscriber();
 
-            Publisher.Sum(5,6);
-            Publisher.Subtraction(1,1);
+            //Publisher.Sum(5,6);
+            //Publisher.Subtraction(1,1);
+            Publisher.Multiply(5, 5);
 
             Console.ReadLine();
         }
@@ -19,14 +20,15 @@ namespace LearningEvents
     {
         //An event is a encapsulated delegate
         public delegate void SumEventHandler();
-        public static event SumEventHandler OnSumExecuted;
+        public static event SumEventHandler OnSumDone;
         
         public static void Sum(int a, int b)
         {
-            if (OnSumExecuted != null)
+            var operation = a + b;
+            if (OnSumDone != null)
             {
-                Console.WriteLine($"Sum result is: {a + b}");
-                OnSumExecuted();
+                Console.WriteLine($"Sum result is: {operation}");
+                OnSumDone();
             }
             else
             {
@@ -36,19 +38,46 @@ namespace LearningEvents
         }
 
         public delegate bool SubtractionEventHandler (string text, int number);
-        public static event SubtractionEventHandler OnSubtractionExecuted;
+        public static event SubtractionEventHandler OnSubtractionDone;
 
         public static void Subtraction(int a, int b)
         {
-            if (OnSubtractionExecuted != null)
+            var operation = a - b;
+
+            if (OnSubtractionDone != null)
             {
-                var operation = a - b;
-                var returnedValue = OnSubtractionExecuted("Subtraction had been executed", operation);
-                Console.WriteLine($"And returned value is: {returnedValue}");
+                var returnedValue = OnSubtractionDone("Subtraction had been executed", operation);
+                Console.WriteLine($"And subscriber returned value is: {returnedValue}");
             }
             else
             {
                 Console.WriteLine($"Not subscribed to the events");
+            }
+        }
+
+        public delegate bool MultiplyEventHandler (object sender, MultiplyEventArgs e);
+        //Assigning the default delegate to avoid null if no one is subscribed. In addition you will always receive true by default.
+        public static event MultiplyEventHandler OnMultiplyDone = defaultOnMultiplyDoneHandler;
+        private static bool defaultOnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
+        {
+            return true;
+        }
+
+        public static void Multiply(int a, int b)
+        {
+            var operation = a * b;
+            var returnedValue = OnMultiplyDone(null, new MultiplyEventArgs(operation, "Multiply had been executed"));
+
+            if (OnMultiplyDone == defaultOnMultiplyDoneHandler)
+            {
+                //Default value
+                Console.WriteLine($"Multiply done. But no subscribers.");
+            }
+            else
+            {
+                //Has subscribers.
+                //The return value will be the last one that was subscribed.
+                Console.WriteLine($"And last subscriber returned value is: {returnedValue}");
             }
         }
     }
@@ -57,27 +86,52 @@ namespace LearningEvents
     {
         public Subscriber()
         {
-            Publisher.OnSumExecuted += OnSumExecutedHandler;
-            Publisher.OnSubtractionExecuted += OnSubtractionExecutedHandler;
+            Publisher.OnSumDone += OnSumDoneHandler;
+            Publisher.OnSubtractionDone += OnSubtractionDoneHandler;
+            Publisher.OnMultiplyDone += OnMultiplyDoneHandler;
         }
         
-        private static void OnSumExecutedHandler()
+        private static void OnSumDoneHandler()
         {
             Console.WriteLine("Sum had been executed");
         }
 
-        private static bool OnSubtractionExecutedHandler(string text, int number)
+        private static bool OnSubtractionDoneHandler(string text, int number)
         {
+            //Make some logic with passed parameters
+            //and return the result.
             Console.WriteLine($"Subtraction had been executed. Result is: {number}");
+            
+            return true;
+        }
+
+        private bool OnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
+        {
+            Console.WriteLine($"{e.Message}. Result is: {e.Value}");
 
             return true;
         }
 
         public void Dispose()
         {
-            Publisher.OnSumExecuted -= OnSumExecutedHandler;
-            Publisher.OnSubtractionExecuted -= OnSubtractionExecutedHandler;
+            Publisher.OnSumDone -= OnSumDoneHandler;
+            Publisher.OnSubtractionDone -= OnSubtractionDoneHandler;
+            Publisher.OnMultiplyDone -= OnMultiplyDoneHandler;
+
             System.GC.SuppressFinalize(this);
         }
+    }
+
+    public class MultiplyEventArgs : EventArgs
+    {
+        public int Value { get; set; }
+
+        public string Message { get; set; }
+        public MultiplyEventArgs(int value, string message)
+        {
+            Value = value;
+            Message = message;
+        }
+        
     }
 }
