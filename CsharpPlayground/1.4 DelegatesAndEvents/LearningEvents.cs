@@ -34,7 +34,6 @@ namespace LearningEvents
             {
                 Console.WriteLine($"Not subscribed to the events");
             }
-
         }
 
         public delegate bool SubtractionEventHandler (string text, int number);
@@ -55,13 +54,21 @@ namespace LearningEvents
             }
         }
 
+        //1. Declare the delegate and its inputs and output parameters.
         public delegate bool MultiplyEventHandler (object sender, MultiplyEventArgs e);
-        //Assigning the default delegate to avoid null if no one is subscribed. In addition you will always receive true by default.
+
+        //2. Declare the event supported by the delegate.
+        //3. Assigning the method default delegate to avoid NULL if no one is subscribed. 
         private static event MultiplyEventHandler _onMultiplyDone = defaultOnMultiplyDoneHandler;
+
+        //4. Create a method for the delegate.
         private static bool defaultOnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
         {
+            //In addition you will always receive true by default.
             return true;
         }
+
+        //5. Optional. Customize addition and removal of subscribers.
 
         //The event implementation uses a public field, you can still customize addition and removal of subscribers.
         //This is called a custom event accessor
@@ -85,23 +92,29 @@ namespace LearningEvents
                 }
             }
         }
+
+        private static void RaiseMultiplyDone(int operation, string message)
+        {
+             //6. Raise the event with its custom args. Not need it to null check.
+             var returnedValue = _onMultiplyDone(null, new MultiplyEventArgs(operation, message));
+
+             if (_onMultiplyDone == defaultOnMultiplyDoneHandler)
+             {
+                 //Default value
+                 Console.WriteLine($"Multiply done. But no subscribers.");
+             }
+             else
+             {
+                 //Has subscribers.
+                 //The return value will be the last one that was subscribed.
+                 Console.WriteLine($"And last subscriber returned value is: {returnedValue}");
+             }
+        }
         
         public static void Multiply(int a, int b)
         {
             var operation = a * b;
-            var returnedValue = _onMultiplyDone(null, new MultiplyEventArgs(operation, "Multiply had been executed"));
-
-            if (_onMultiplyDone == defaultOnMultiplyDoneHandler)
-            {
-                //Default value
-                Console.WriteLine($"Multiply done. But no subscribers.");
-            }
-            else
-            {
-                //Has subscribers.
-                //The return value will be the last one that was subscribed.
-                Console.WriteLine($"And last subscriber returned value is: {returnedValue}");
-            }
+            RaiseMultiplyDone(operation, "Multiply had been executed");
         }
     }
 
@@ -111,6 +124,7 @@ namespace LearningEvents
         {
             Publisher.OnSumDone += OnSumDoneHandler;
             Publisher.OnSubtractionDone += OnSubtractionDoneHandler;
+            //7. Subscribe to the event.
             Publisher.OnMultiplyDone += OnMultiplyDoneHandler;
         }
         
@@ -130,6 +144,7 @@ namespace LearningEvents
 
         private bool OnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
         {
+            //8. Manage the event.
             Console.WriteLine($"{e.Message}. Result is: {e.Value}");
 
             return true;
@@ -141,7 +156,7 @@ namespace LearningEvents
             Publisher.OnSubtractionDone -= OnSubtractionDoneHandler;
             Publisher.OnMultiplyDone -= OnMultiplyDoneHandler;
 
-            System.GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
     }
 
@@ -155,6 +170,5 @@ namespace LearningEvents
             Value = value;
             Message = message;
         }
-        
     }
 }
