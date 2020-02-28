@@ -20,11 +20,7 @@ namespace LearningEvents
         //An event is a encapsulated delegate
         public delegate void SumEventHandler();
         public static event SumEventHandler OnSumExecuted;
-
-
-        public delegate void SubtractionEventHandler();
-        public static event SubtractionEventHandler OnSubtractionExecuted;
-
+        
         public static void Sum(int a, int b)
         {
             if (OnSumExecuted != null)
@@ -39,12 +35,16 @@ namespace LearningEvents
 
         }
 
+        public delegate bool SubtractionEventHandler (string text, int number);
+        public static event SubtractionEventHandler OnSubtractionExecuted;
+
         public static void Subtraction(int a, int b)
         {
             if (OnSubtractionExecuted != null)
             {
-                Console.WriteLine($"Subtraction result is: {a - b}");
-                OnSubtractionExecuted();
+                var operation = a - b;
+                var returnedValue = OnSubtractionExecuted("Subtraction had been executed", operation);
+                Console.WriteLine($"And returned value is: {returnedValue}");
             }
             else
             {
@@ -60,15 +60,17 @@ namespace LearningEvents
             Publisher.OnSumExecuted += OnSumExecutedHandler;
             Publisher.OnSubtractionExecuted += OnSubtractionExecutedHandler;
         }
-
-        private static void OnSubtractionExecutedHandler()
-        {
-            Console.WriteLine("Subtraction had been executed");
-        }
-
+        
         private static void OnSumExecutedHandler()
         {
             Console.WriteLine("Sum had been executed");
+        }
+
+        private static bool OnSubtractionExecutedHandler(string text, int number)
+        {
+            Console.WriteLine($"Subtraction had been executed. Result is: {number}");
+
+            return true;
         }
 
         public void Dispose()

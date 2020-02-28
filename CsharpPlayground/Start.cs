@@ -17,6 +17,8 @@ namespace CsharpPlayground
     using ThrowingCustomExceptionWithTheOriginal;
     using LearningReflection;
     using DisposeAndFinalize;
+    using StringsAdvanced;
+    using LearningEvents;
 
     public class Start
     {
@@ -25,16 +27,16 @@ namespace CsharpPlayground
         {
             //LearningDelegates.Start();
 
-            //LearningEvents.LearningEvents.Start();
+            LearningEvents.Start();
 
             //UsingDelegate.Start();
+
             //MulticastDelegate.Start();
-
-
-
+            
             //ActionExposeEventSubscriber.Start();
 
             //CustomEventArguments.Start();
+
             //RaisingEventsWithExceptionHandling.Start();
 
             //LambdaIntroduction.Start();
@@ -65,9 +67,9 @@ namespace CsharpPlayground
 
             //LearningReflection.Start();
 
-            DisposeAndFinalize.Start();
+            //DisposeAndFinalize.Start();
 
-            StringsAdvanced.Start();
+            //StringsAdvanced.Start();
 
 
 
