@@ -1,4 +1,5 @@
 ﻿
+using System.Threading.Tasks;
 using RaisingEventsWithExceptionHandlingSubscriber;
 
 namespace CsharpPlayground
@@ -19,20 +20,21 @@ namespace CsharpPlayground
     using DisposeAndFinalize;
     using StringsAdvanced;
     using LearningEvents;
+    using LearningAsyncAwait;
 
     public class Start
     {
        
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             //LearningDelegates.Start();
 
-            LearningEvents.Start();
+            //LearningEvents.Start();
 
             //UsingDelegate.Start();
 
             //MulticastDelegate.Start();
-            
+
             //ActionExposeEventSubscriber.Start();
 
             //CustomEventArguments.Start();
@@ -71,9 +73,7 @@ namespace CsharpPlayground
 
             //StringsAdvanced.Start();
 
-
-
-
+            await LearningAsyncAwait.Start();
         }
     }
 }
