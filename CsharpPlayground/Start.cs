@@ -22,6 +22,7 @@ namespace CsharpPlayground
     using StringsAdvanced;
     using LearningEvents;
     using LearningAsyncAwait;
+    using Threading;
 
     public class Start
     {
@@ -74,7 +75,9 @@ namespace CsharpPlayground
 
             //StringsAdvanced.Start();
 
-            LearningAsyncAwait.Start();
+            //LearningAsyncAwait.Start();
+
+            //Threading.Start();
 
             Console.ReadLine();
         }

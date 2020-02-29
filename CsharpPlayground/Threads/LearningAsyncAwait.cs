@@ -61,6 +61,7 @@ namespace LearningAsyncAwait
         {
             Console.WriteLine("-----Task ThreeSecondsTaskAsync sent");
             Console.WriteLine($"Thead: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine($"Am I on a Pooling Thread?: {Thread.CurrentThread.IsThreadPoolThread}");
             Console.WriteLine();
 
             await Task.Delay(3000);
