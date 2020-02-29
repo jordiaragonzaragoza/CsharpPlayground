@@ -19,6 +19,9 @@ namespace Threading
             ThreadsExceptionHandling.Main();
 
             ThreadSignaling.Main();
+
+            new ThreadBeginInvooke();
+            new ThreadSyncronizationContext();
         }
 
 
@@ -222,10 +225,11 @@ namespace Threading
         void UpdateMessage(string message)
         {
             // Marshal the delegate to the UI thread:
+            //Calling Post is equivalent to calling BeginInvoke on a Dispatcher or Control;
             _uiSyncContext.Post(_ => _textOnUIControl = message, null);
 
-            //Calling Post is equivalent to calling BeginInvoke on a Dispatcher or Control;
             //there’s also a Send method, which is equivalent to Invoke.
+            _uiSyncContext.Send(_ => _textOnUIControl = message, null);
         }
     }
 }
