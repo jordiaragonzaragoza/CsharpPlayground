@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,15 +12,17 @@ namespace LearningTask
     {
         public static void Start()
         {
-            TaskRun();
-            TaskWait();
-            TaskResult();
-            LongRuningTask();
-            TaskException();
-            TaskContinuations();
-            TaskCompletionSource(); //TODO: Incomplete.
+            //TaskRun();
+            //TaskWait();
+            //TaskResult();
+            //LongRuningTask();
+            //TaskException();
+            //TaskContinuations();
+            //TaskCompletionSource(); //TODO: Incomplete.
+            //IntroAwaitAsync();
+            DownloadAndSumAsync();
         }
-
+        
         public static void TaskRun()
         {
             Task.Run(() => Console.WriteLine("Task.Run() executed."));
@@ -178,6 +182,89 @@ namespace LearningTask
 
             Task<int> task = taskCompletionSource.Task; // Our "slave" task.
             Console.WriteLine(task.Result); // 42
+
+            //TaskCompletionSource with custom Run
+            //Calling this method is equivalent to calling Task.Factory.StartNew with the Task
+            //CreationOptions.LongRunning option to request a nonpooled thread.
+
+            Task<TResult> CustomRun<TResult>(Func<TResult> function)
+            {
+                var taskCustomRun = new TaskCompletionSource<TResult>();
+                new Thread(() =>
+                {
+                    try
+                    {
+                        taskCustomRun.SetResult(function());
+                    }
+                    catch (Exception ex)
+                    {
+                        taskCustomRun.SetException(ex);
+                    }
+                }).Start();
+                return taskCustomRun.Task;
+            }
+            
+            Task<int> customTask = CustomRun(() =>
+            {
+                Thread.Sleep(5000); return 42;
+            });
+
+        }
+
+        public static async void IntroAwaitAsync()
+        {
+            Task<int> GetPrimesCountAsync(int start, int count)
+            {
+                return Task.Run(() =>
+                    ParallelEnumerable.Range(start, count).Count(n =>
+                        Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0)));
+            }
+
+            async Task<string> DisplayPrimeCountsAsync()
+            {
+                for (int i = 0; i < 10; i++)
+                { Console.WriteLine(await GetPrimesCountAsync(i * 1000000 + 2, 1000000) +
+                                      " primes between " + (i * 1000000) + " and " + ((i + 1) * 1000000 - 1));
+
+                }
+
+                return "Done DisplayPrimeCountsAsync()";
+            }
+
+            var taskResult = await DisplayPrimeCountsAsync();
+            Console.WriteLine(taskResult);
+
+            Console.WriteLine("Done IntroPreSyncAwait()");
+        }
+
+        public static async void DownloadAndSumAsync()
+        {
+            Console.WriteLine("Hello");
+            string[] urls = "www.albahari.com www.oreilly.com www.linqpad.net".Split();
+            int totalLength = 0;
+            try
+            {
+                foreach (string url in urls)
+                {
+                    var uri = new Uri("http://" + url);
+                    byte[] data = await new WebClient().DownloadDataTaskAsync(uri);
+
+                    Console.WriteLine("Length of " + url + " is " + data.Length +
+                                      Environment.NewLine);
+                    
+                    totalLength += data.Length;
+                }
+
+                Console.WriteLine("Total length: " + totalLength);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Bye");
+            }
         }
     }
 }
