@@ -24,6 +24,7 @@ namespace CsharpPlayground
     using LearningAsyncAwait;
     using Threading;
     using LearningTask;
+    using CovarianceContravariance;
 
     public class Start
     {
@@ -80,7 +81,9 @@ namespace CsharpPlayground
 
             //Threading.Start();
 
-            LearningTask.Start();
+            //LearningTask.Start();
+
+            CovarianceContravariance.Start();
 
             Console.ReadLine();
         }
