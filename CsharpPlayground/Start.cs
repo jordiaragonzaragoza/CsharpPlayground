@@ -13,7 +13,7 @@ namespace CsharpPlayground
     using InterfaceExplicitly;
     using IntefaceAndGenerics;
     using ImplementingCollectionInterfaces;
-    using LearningDelegates;
+    using DelegateActionPredicateFunc;
     using LambdaIntroduction;
     using LearningAttributes;
     using ThrowingCustomExceptionWithTheOriginal;
@@ -31,7 +31,7 @@ namespace CsharpPlayground
        
         public static void Main(string[] args)
         {
-            //LearningDelegates.Start();
+            DelegateActionPredicateFunc.Start();
 
             //LearningEvents.Start();
 
@@ -83,9 +83,7 @@ namespace CsharpPlayground
 
             //LearningTask.Start();
 
-            CovarianceContravariance.Start();
-
-            Console.ReadLine();
+            //CovarianceContravariance.Start();
         }
     }
 }

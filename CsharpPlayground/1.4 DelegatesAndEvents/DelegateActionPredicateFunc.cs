@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LearningDelegates
+namespace DelegateActionPredicateFunc
 {
     /***Summary***/
 
@@ -16,7 +16,7 @@ namespace LearningDelegates
     //Now delegate using generics
     public delegate void PrintDelegateGenerics<T>(T value);
 
-    public static class LearningDelegates
+    public static class DelegateActionPredicateFunc
     {
         //Delegate with input and output in a class
         public delegate bool BoolDelegate(string text, int number);
@@ -166,7 +166,7 @@ namespace LearningDelegates
     //Delegates allow send a method as parameter in other classes
     public static class OtherClass
     {
-        public static bool PassingDelegate(LearningDelegates.BoolDelegate @delegate)
+        public static bool PassingDelegate(DelegateActionPredicateFunc.BoolDelegate @delegate)
         {
             bool returnedValue = @delegate("sample text", 100);
             //Do some logic...
