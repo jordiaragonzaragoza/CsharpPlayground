@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LearningEvents
+namespace DelegateEvent
 {
-    public static class LearningEvents
+    public static class DelegateEvent
     {
         public static void Start()
         {
@@ -122,18 +122,19 @@ namespace LearningEvents
     {
         public Subscriber()
         {
-            Publisher.OnSumDone += OnSumDoneHandler;
-            Publisher.OnSubtractionDone += OnSubtractionDoneHandler;
+            Publisher.OnSumDone += OnSumDoneEventHandler;
+            Publisher.OnSubtractionDone += OnSubtractionDoneEventHandler;
+
             //7. Subscribe to the event.
-            Publisher.OnMultiplyDone += OnMultiplyDoneHandler;
+            Publisher.OnMultiplyDone += OnMultiplyDoneEventHandler;
         }
         
-        private static void OnSumDoneHandler()
+        private static void OnSumDoneEventHandler()
         {
             Console.WriteLine("Sum had been executed");
         }
 
-        private static bool OnSubtractionDoneHandler(string text, int number)
+        private static bool OnSubtractionDoneEventHandler(string text, int number)
         {
             //Make some logic with passed parameters
             //and return the result.
@@ -142,7 +143,7 @@ namespace LearningEvents
             return true;
         }
 
-        private bool OnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
+        private bool OnMultiplyDoneEventHandler(object sender, MultiplyEventArgs e)
         {
             //8. Manage the event.
             Console.WriteLine($"{e.Message}. Result is: {e.Value}");
@@ -152,9 +153,9 @@ namespace LearningEvents
 
         public void Dispose()
         {
-            Publisher.OnSumDone -= OnSumDoneHandler;
-            Publisher.OnSubtractionDone -= OnSubtractionDoneHandler;
-            Publisher.OnMultiplyDone -= OnMultiplyDoneHandler;
+            Publisher.OnSumDone -= OnSumDoneEventHandler;
+            Publisher.OnSubtractionDone -= OnSubtractionDoneEventHandler;
+            Publisher.OnMultiplyDone -= OnMultiplyDoneEventHandler;
 
             GC.SuppressFinalize(this);
         }

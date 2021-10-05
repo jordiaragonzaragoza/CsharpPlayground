@@ -20,7 +20,7 @@ namespace CsharpPlayground
     using LearningReflection;
     using DisposeAndFinalize;
     using StringsAdvanced;
-    using LearningEvents;
+    using DelegateEvent;
     using LearningAsyncAwait;
     using Threading;
     using LearningTask;
@@ -31,9 +31,9 @@ namespace CsharpPlayground
        
         public static void Main(string[] args)
         {
-            DelegateActionPredicateFunc.Start();
+            //DelegateActionPredicateFunc.Start();
 
-            //LearningEvents.Start();
+            DelegateEvent.Start();
 
             //UsingDelegate.Start();
 
