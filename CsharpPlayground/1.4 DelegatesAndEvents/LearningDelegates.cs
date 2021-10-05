@@ -27,8 +27,8 @@ namespace LearningDelegates
             InstantiateDelegateGenerics();
             DelegateUsingAction();
             DelegateUsingActionAnonymous();
-            DelegateUsingFunc();
             DelegateUsingPredicate();
+            DelegateUsingFunc();
 
             UsingOtherClasses();
 
@@ -37,20 +37,26 @@ namespace LearningDelegates
 
         public static bool AlwaysTrueConsolePrint(string text, int number)
         {
-            Console.WriteLine($"Hello. I'm AlwaysTrueConsolePrint() Method. This are my parameters: text: {text}, number: {number}");
+            Console.WriteLine($"I'm AlwaysTrueConsolePrint() Method. This are my parameters: text: {text}, number: {number}");
+
             return true;
         }
 
         //Same input and output as delegate to allow instantiate throw delegate.
         public static void ConsolePrint(string value)
         {
-            Console.WriteLine($"Hello. I'm ConsolePrint() Method. {value}");
+            Console.WriteLine($"I'm ConsolePrint() Method. My parameter string value is: {value}");
         }
 
-        //This will be used for print delegate generics
+        //This will be used for print delegate generics.
         public static void ConsolePrint(int value)
         {
-            Console.WriteLine($"Hello. I'm ConsolePrint() Method. {value}");
+            Console.WriteLine($"I'm ConsolePrint() Method. My parameter int value is: {value}");
+        }
+
+        public static void ConsolePrintHello()
+        {
+            Console.WriteLine("I'm ConsolePrintHello() Method.");
         }
 
         public static void InstantiateDelegate()
@@ -58,8 +64,12 @@ namespace LearningDelegates
             var printDelegate = new PrintDelegate(ConsolePrint);
             printDelegate("I'm a simple delegate.");
 
+            PrintDelegate otherPrintDelegate = ConsolePrint;
+            otherPrintDelegate("I'm other simple delegate");
+
             var trueDelegate = new BoolDelegate(AlwaysTrueConsolePrint);
             var returnedValue = trueDelegate("sample text", 100);
+            Console.WriteLine($"BoolDelegate returned value is: {returnedValue}");
         }
 
         public static void InstantiateDelegateGenerics()
@@ -75,6 +85,9 @@ namespace LearningDelegates
         public static void DelegateUsingAction()
         {
             //Action works as delegate but it returns void. Allows to 16 input parameters.
+            Action consolePrintHelloAction = ConsolePrintHello;
+            consolePrintHelloAction();
+
             Action<string> consolePrintAction = ConsolePrint;
             consolePrintAction("I'm an action.");
         }
@@ -82,20 +95,31 @@ namespace LearningDelegates
         public static void DelegateUsingActionAnonymous()
         {
             //Now using a new anonymous method to print on console.
+
+            Action consolePrintAnonymousActionWithoutParameter = delegate { Console.WriteLine("I'm an action using an anonymous method without parameter."); };
+            consolePrintAnonymousActionWithoutParameter();
+
             Action<string> consolePrintAnonymousAction = delegate(string value) { Console.WriteLine(value); };
             consolePrintAnonymousAction("I'm an action using an anonymous method");
 
             //Now using a new anonymous method with lambda to print on console.
             Action<string> consolePrintAnonymousLambdaAction = value => Console.WriteLine(value);
             consolePrintAnonymousLambdaAction("I'm an action using an anonymous method with lambda");
+        }
 
+        public static void DelegateUsingPredicate()
+        {
+            //Predicate works as delegate but it returns a bool. At least one input parameter is required. Allows to 16 input parameters.
+            Predicate<int> adult = value => value > 17;
+            var isAdult = adult(25);
+
+            Console.WriteLine(isAdult ? "is adult" : "is not adult");
         }
 
         public static void DelegateUsingFunc()
         {
             //Func works as delegate but with a required output of any type. Allows to 16 input parameters. Latest parameter is the output.
             //Func will be used massive on LINQ
-
             Func<string, string> consolePrintAnonymousFunc = delegate(string value)
             {
                 Console.WriteLine(value);
@@ -107,20 +131,11 @@ namespace LearningDelegates
             Func<string, string> consolePrintAnonymousLambdaFunc = value =>
             {
                 Console.WriteLine(value);
-                return string.Empty;
+                return "consolePrintAnonymousLambdaFunc() Executed.";
             };
 
-            consolePrintAnonymousLambdaFunc("I'm a func using an anonymous method with lambda");
-        }
-
-        public static void DelegateUsingPredicate()
-        {
-            //Predicate works as delegate but it returns a bool. Allows to 16 input parameters.
-
-            Predicate<int> adult = value => value > 17;
-            var isAdult = adult(25);
-
-            Console.WriteLine(isAdult ? "is adult": "is not adult");
+            var returnedValue = consolePrintAnonymousLambdaFunc("I'm a func using an anonymous method with lambda");
+            Console.WriteLine(returnedValue);
         }
 
         public static void UsingOtherClasses()
@@ -145,7 +160,6 @@ namespace LearningDelegates
             //Passing Predicate
             Predicate<int> adult = value => value > 17;
             var predicateReturnedValue = OtherClass.PassingPredicate(adult);
-
         }
     }
 
@@ -166,19 +180,19 @@ namespace LearningDelegates
             //Do some logic...
         }
 
-        public static string PassingFunc(Func<string, string> @func)
-        {
-            string returnedValue = @func("I'm a func using an anonymous method from other class!");
-            //Do some logic...
-            return string.Empty;
-        }
-
         public static bool PassingPredicate(Predicate<int> @predicate)
         {
             bool returnedValue = @predicate(25);
             //Do some logic...
             Console.WriteLine("Im a predicate executed from other class!");
             return true;
+        }
+
+        public static string PassingFunc(Func<string, string> @func)
+        {
+            string returnedValue = @func("I'm a func using an anonymous method from other class!");
+            //Do some logic...
+            return string.Empty;
         }
     }
 }
