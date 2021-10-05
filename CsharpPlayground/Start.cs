@@ -33,7 +33,7 @@ namespace CsharpPlayground
         {
             //DelegateActionPredicateFunc.Start();
 
-            DelegateEvent.Start();
+            //DelegateEvent.Start();
 
             //UsingDelegate.Start();
 
@@ -41,7 +41,7 @@ namespace CsharpPlayground
 
             //ActionExposeEventSubscriber.Start();
 
-            //CustomEventArguments.Start();
+            CustomEventArguments.Start();
 
             //RaisingEventsWithExceptionHandling.Start();
 

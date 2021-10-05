@@ -8,27 +8,28 @@ namespace CustomEventArguments
         {
             var publisher = new PublisherCustomEventArguments();
             var subscriber = new SubscriberCustomEventArguments(publisher);
-            publisher.MethodWhoRaiseOnChangeEvent();
-
+            publisher.DoSomething();
 
             Console.ReadLine();
         }
     }
 
-    public class CustomArgs : EventArgs
+    public class CustomEventArgs : EventArgs
     {
-        public CustomArgs(int value)
+        public CustomEventArgs (string message)
         {
-            Value = value;
+            Message = message;
         }
-        public int Value { get; set; }
+
+        public string Message { get; set; }
     }
 
     public class PublisherCustomEventArguments
     {
-        private event EventHandler<CustomArgs> _onChange = delegate { };
+        private event EventHandler<CustomEventArgs> _onChange = delegate { };
 
-        public event EventHandler<CustomArgs> OnChange
+        // Declare the event using EventHandler<T>
+        public event EventHandler<CustomEventArgs> OnChange
         {
             add
             {
@@ -46,10 +47,34 @@ namespace CustomEventArguments
             }
         }
 
-        public void MethodWhoRaiseOnChangeEvent()
+        public void DoSomething()
         {
-            _onChange(this, new CustomArgs(42));
+            // Write some code that does something useful here
+            // then raise the event. You can also raise an event
+            // before you execute a block of code.
+            OnRaiseCustomEvent(new CustomEventArgs("Triggered"));
         }
+
+        // Wrap event invocations inside a protected virtual method
+        // to allow derived classes to override the event invocation behavior
+        protected virtual void OnRaiseCustomEvent(CustomEventArgs e)
+        {
+            // Make a temporary copy of the event to avoid possibility of
+            // a race condition if the last subscriber unsubscribes
+            // immediately after the null check and before the event is raised.
+            EventHandler<CustomEventArgs> raiseEvent = _onChange;
+
+            // Event will be null if there are no subscribers
+            if (raiseEvent != null)
+            {
+                // Format the string to send inside the CustomEventArgs parameter
+                e.Message += $" at {DateTime.Now}";
+
+                // Call to raise the event.
+                raiseEvent(this, e);
+            }
+        }
+
     }
     
     public class SubscriberCustomEventArguments : IDisposable
@@ -59,17 +84,17 @@ namespace CustomEventArguments
         public SubscriberCustomEventArguments(PublisherCustomEventArguments publisher)
         {
             _publisher = publisher;
-            _publisher.OnChange += _publisher_OnChange;
+            _publisher.OnChange += PublisherOnChangeEventHandler;
         }
 
-        private void _publisher_OnChange(object sender, CustomArgs e)
+        private void PublisherOnChangeEventHandler(object sender, CustomEventArgs  e)
         {
-            Console.WriteLine("Event raised: {0}", e.Value);
+            Console.WriteLine("Event raised: {0}", e.Message);
         }
 
         public void Dispose()
         {
-            _publisher.OnChange -= _publisher_OnChange;
+            _publisher.OnChange -= PublisherOnChangeEventHandler;
             System.GC.SuppressFinalize(this);
         }
     }

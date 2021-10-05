@@ -27,9 +27,9 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
 
     public class PublisherRaisingEventsWithExceptionHandling 
     {
-        private event EventHandler<CustomArgs> _onChange = delegate { };
+        private event EventHandler<CustomEventArgs > _onChange = delegate { };
 
-        public event EventHandler<CustomArgs> OnChange
+        public event EventHandler<CustomEventArgs > OnChange
         {
             add
             {
@@ -57,7 +57,7 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
                 try
                 {
                     //Invoke events.
-                    handler.DynamicInvoke(this, new CustomArgs(42));
+                    handler.DynamicInvoke(this, new CustomEventArgs ("42"));
                 }
                 catch (Exception ex)
                 {
@@ -82,19 +82,19 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
             _publisher.OnChange += OnChangeExceptionHandler;
             _publisher.OnChange += OnChangeSecondHandler;
         }
-        private static void OnChangeExceptionHandler(object sender, CustomArgs e)
+        private static void OnChangeExceptionHandler(object sender, CustomEventArgs  e)
         {
             throw new Exception();
         }
 
-        private static void OnChangeFistHandler(object sender, CustomArgs e)
+        private static void OnChangeFistHandler(object sender, CustomEventArgs  e)
         {
-            Console.WriteLine("Subscriber 1 called. Event value: {0}", e.Value);
+            Console.WriteLine("Subscriber 1 called. Event value: {0}", e.Message);
         }
 
-        private static void OnChangeSecondHandler(object sender, CustomArgs e)
+        private static void OnChangeSecondHandler(object sender, CustomEventArgs  e)
         {
-            Console.WriteLine("Subscriber 3 called. Event value: {0}", e.Value);
+            Console.WriteLine("Subscriber 3 called. Event value: {0}", e.Message);
         }
 
         public void Dispose()
