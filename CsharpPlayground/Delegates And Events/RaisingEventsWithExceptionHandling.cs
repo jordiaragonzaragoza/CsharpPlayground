@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CustomEventArguments;
-
-namespace RaisingEventsWithExceptionHandlingSubscriber
+﻿namespace RaisingEventsWithExceptionHandling
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using CustomEventArguments;
+
     public static class RaisingEventsWithExceptionHandling
     {
         public static void Start()
         {
-            var publisher = new PublisherRaisingEventsWithExceptionHandling();
-            var subscriber = new SubscriberRaisingEventsWithExceptionHandling(publisher);
+            var publisher = new Publisher();
+            var subscriber = new Subscriber(publisher);
             
             try
             {
@@ -25,7 +25,7 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
         }
     }
 
-    public class PublisherRaisingEventsWithExceptionHandling 
+    public class Publisher 
     {
         private event EventHandler<CustomEventArgs> _onChange = delegate { };
 
@@ -52,7 +52,7 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
             //Do some logic...
             //...
             var exceptions = new List<Exception>();
-            foreach (var handler in _onChange.GetInvocationList())
+            foreach (Delegate handler in _onChange.GetInvocationList())
             {
                 try
                 {
@@ -72,19 +72,15 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
         }
     }
 
-    public class SubscriberRaisingEventsWithExceptionHandling : IDisposable
+    public class Subscriber : IDisposable
     {
-        private readonly PublisherRaisingEventsWithExceptionHandling _publisher;
-        public SubscriberRaisingEventsWithExceptionHandling(PublisherRaisingEventsWithExceptionHandling publisher)
+        private readonly Publisher _publisher;
+        public Subscriber(Publisher publisher)
         {
             _publisher = publisher;
             _publisher.OnChange += OnChangeFistHandler;
-            _publisher.OnChange += OnChangeExceptionHandler;
             _publisher.OnChange += OnChangeSecondHandler;
-        }
-        private static void OnChangeExceptionHandler(object sender, CustomEventArgs  e)
-        {
-            throw new Exception();
+            _publisher.OnChange += OnChangeExceptionHandler;
         }
 
         private static void OnChangeFistHandler(object sender, CustomEventArgs  e)
@@ -95,6 +91,10 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
         private static void OnChangeSecondHandler(object sender, CustomEventArgs  e)
         {
             Console.WriteLine("Subscriber 3 called. Event value: {0}", e.Message);
+        }
+        private static void OnChangeExceptionHandler(object sender, CustomEventArgs e)
+        {
+            throw new Exception();
         }
 
         public void Dispose()

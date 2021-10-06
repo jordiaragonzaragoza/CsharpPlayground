@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace LambdaIntroduction
+﻿namespace LambdaSimpleFunc
 {
-    public static class LambdaIntroduction
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    public static class LambdaSimpleFunc
     {
+        //Func:      works as delegate but with a required output of any type.
         private static readonly Func<int, bool> AdultsFunc = value => value >= 18;
 
         public static void Start()
@@ -17,8 +19,8 @@ namespace LambdaIntroduction
                 new Person() { Age = 7, Name = "Lucas" }
             };
 
-            //Where is an extension method for Enumerable
-            //Double Lambda expression
+            // Where is an extension method for Enumerable
+            // Double Lambda expression
             var adults = persons.Where(p => AdultsFunc(p.Age)).ToList();
             
             Console.WriteLine($"We have {adults.Count} adults on our collection");
