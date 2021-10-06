@@ -26,13 +26,15 @@
     using CovarianceContravariance;
     using DelegateSimple;
     using ActionExposeEvent;
+    using ExceptionHandlingInspecting;
+    using ExceptionDispatchInfoThrow;
 
     public class Start
     {
        
         public static void Main(string[] args)
         {
-            //** Delegates And Events**//
+            ////** Delegates And Events **////
 
             //DelegateSimple.Start();
 
@@ -52,7 +54,7 @@
 
             //LambdaSimpleFunc.Start();
 
-
+            ////** Exceptions **////
 
             //ExceptionHandlingInspecting.Start();
 
@@ -60,7 +62,9 @@
 
             //ThrowingCustomExceptionWithTheOriginal.Start();
 
-            //Generics.Start();
+            ////** CreateTypes **////
+
+            Generics.Start();
 
             //ExtensionMethods.Start();
 

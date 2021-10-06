@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace ThrowingCustomExceptionWithTheOriginal
+﻿namespace ThrowingCustomExceptionWithTheOriginal
 {
+    using System;
+    using System.Runtime.Serialization;
+
     public static class ThrowingCustomExceptionWithTheOriginal
     {
         public static void Start()
@@ -64,13 +64,13 @@ namespace ThrowingCustomExceptionWithTheOriginal
         public OrderProcessingException(int orderId) 
             : this(orderId, null)
         {
-            
         }
+
         public OrderProcessingException(int orderId, string message)
             : this(orderId, message, null)
         {
-            
         }
+
         public OrderProcessingException(int orderId, string message, Exception innerException)
             : base(orderId, message, innerException)
         {

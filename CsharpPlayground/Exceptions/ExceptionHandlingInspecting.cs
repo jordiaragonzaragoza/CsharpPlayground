@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace ExceptionHandlingInspecting
+﻿namespace ExceptionHandlingInspecting
 {
+    using System;
+
     public static class ExceptionHandlingInspecting
     {
         public static void Start()
@@ -17,7 +17,7 @@ namespace ExceptionHandlingInspecting
                 Console.WriteLine("StackTrace: {0}", e.StackTrace);
                 Console.WriteLine("HelpLink: {0}", e.HelpLink);
                 Console.WriteLine("InnerException: {0}", e.InnerException);
-                //Console.WriteLine("TargetSite: {0}", e.TargetSite);
+                Console.WriteLine("TargetSite: {0}", e.TargetSite);
                 Console.WriteLine("Source: {0}", e.Source);
             }
 

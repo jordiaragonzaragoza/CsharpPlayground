@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CovarianceContravariance
+﻿namespace CovarianceContravariance
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class CovarianceContravariance
     {
         public static void Start()
