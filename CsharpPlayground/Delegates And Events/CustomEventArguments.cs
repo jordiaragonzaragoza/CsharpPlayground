@@ -6,8 +6,8 @@ namespace CustomEventArguments
     {
         public static void Start()
         {
-            var publisher = new PublisherCustomEventArguments();
-            var subscriber = new SubscriberCustomEventArguments(publisher);
+            var publisher = new Publisher();
+            var subscriber = new Subscriber(publisher);
             publisher.DoSomething();
 
             Console.ReadLine();
@@ -24,7 +24,7 @@ namespace CustomEventArguments
         public string Message { get; set; }
     }
 
-    public class PublisherCustomEventArguments
+    public class Publisher
     {
         private event EventHandler<CustomEventArgs> _onChange = delegate { };
 
@@ -77,11 +77,11 @@ namespace CustomEventArguments
 
     }
     
-    public class SubscriberCustomEventArguments : IDisposable
+    public class Subscriber : IDisposable
     {
-        private readonly PublisherCustomEventArguments _publisher;
+        private readonly Publisher _publisher;
 
-        public SubscriberCustomEventArguments(PublisherCustomEventArguments publisher)
+        public Subscriber(Publisher publisher)
         {
             _publisher = publisher;
             _publisher.OnChange += PublisherOnChangeEventHandler;

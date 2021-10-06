@@ -6,6 +6,7 @@ using RaisingEventsWithExceptionHandlingSubscriber;
 namespace CsharpPlayground
 {
     using CustomEventArguments;
+    using InheritanceEvents;
     using Generics;
     using ExtensionMethods;
     using OverridingMethods;
@@ -41,7 +42,9 @@ namespace CsharpPlayground
 
             //ActionExposeEventSubscriber.Start();
 
-            CustomEventArguments.Start();
+            //CustomEventArguments.Start();
+
+            InheritanceEvents.Start();
 
             //RaisingEventsWithExceptionHandling.Start();
 
