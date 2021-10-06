@@ -47,7 +47,7 @@ namespace InheritanceEvents
         protected event EventHandler PreDrawEvent;
         protected event EventHandler PostDrawEvent;
 
-        object objectLock = new Object();
+        private readonly object objectLock = new();
 
         // Explicit interface implementation required.
         // Associate IDrawingObject's event with

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace UsingDelegate
+namespace DelegateSimple
 {
-    public static class UsingDelegate
+    public static class DelegateSimple
     {
         public delegate int Calculate(int x, int y);
         

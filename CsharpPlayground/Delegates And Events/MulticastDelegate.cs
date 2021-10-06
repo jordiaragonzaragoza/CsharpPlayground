@@ -12,13 +12,13 @@ namespace MulticastDelegate
         {
             Console.WriteLine("MethodTwo");
         }
-        public delegate void Del();
+        public delegate void Delegate();
 
         public static void Start()
         {
-            Del d = MethodOne;
-            d += MethodTwo;
-            d();
+            Delegate @delegate = MethodOne;
+            @delegate += MethodTwo;
+            @delegate();
 
             Console.ReadLine();
         }
