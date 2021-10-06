@@ -27,9 +27,9 @@ namespace RaisingEventsWithExceptionHandlingSubscriber
 
     public class PublisherRaisingEventsWithExceptionHandling 
     {
-        private event EventHandler<CustomEventArgs > _onChange = delegate { };
+        private event EventHandler<CustomEventArgs> _onChange = delegate { };
 
-        public event EventHandler<CustomEventArgs > OnChange
+        public event EventHandler<CustomEventArgs> OnChange
         {
             add
             {

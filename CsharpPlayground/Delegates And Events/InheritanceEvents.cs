@@ -15,8 +15,21 @@ namespace InheritanceEvents
         public double NewArea { get; }
     }
 
+    public interface IDrawingObject
+    {
+        // Raise this event before drawing
+        // the object.
+        event EventHandler OnDraw;
+    }
+    public interface IShape
+    {
+        // Raise this event after drawing
+        // the shape.
+        event EventHandler OnDraw;
+    }
+
     // Base class event publisher
-    public abstract class Shape
+    public abstract class Shape : IDrawingObject, IShape
     {
         protected double _area;
 
@@ -30,7 +43,64 @@ namespace InheritanceEvents
         // we do not need to declare a separate delegate type.
         public event EventHandler<ShapeEventArgs> ShapeChanged;
 
-        public abstract void Draw();
+        // Create an event for each interface event
+        protected event EventHandler PreDrawEvent;
+        protected event EventHandler PostDrawEvent;
+
+        object objectLock = new Object();
+
+        // Explicit interface implementation required.
+        // Associate IDrawingObject's event with
+        // PreDrawEvent
+        event EventHandler IDrawingObject.OnDraw
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    PreDrawEvent += value;
+                }
+            }
+            remove
+            {
+                lock (objectLock)
+                {
+                    PreDrawEvent -= value;
+                }
+            }
+        }
+
+        // Explicit interface implementation required.
+        // Associate IShape's event with
+        // PostDrawEvent
+        event EventHandler IShape.OnDraw
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    PostDrawEvent += value;
+                }
+            }
+            remove
+            {
+                lock (objectLock)
+                {
+                    PostDrawEvent -= value;
+                }
+            }
+        }
+
+        public virtual void Draw()
+        {
+            // Raise IDrawingObject's event before the object is drawn.
+            PreDrawEvent?.Invoke(this, EventArgs.Empty);
+
+            Console.WriteLine("Drawing a shape.");
+
+            // Raise IShape's event after the object is drawn.
+            PostDrawEvent?.Invoke(this, EventArgs.Empty);
+        }
 
         //The event-invoking method that derived classes can override.
         protected virtual void OnShapeChanged(ShapeEventArgs e)
@@ -67,7 +137,9 @@ namespace InheritanceEvents
 
         public override void Draw()
         {
-            Console.WriteLine("Drawing a circle");
+            base.Draw();
+
+            Console.WriteLine("Circle drawn");
         }
     }
 
@@ -101,7 +173,9 @@ namespace InheritanceEvents
 
         public override void Draw()
         {
-            Console.WriteLine("Drawing a rectangle");
+            base.Draw();
+
+            Console.WriteLine("Rectangle drawn");
         }
     }
 
@@ -123,6 +197,22 @@ namespace InheritanceEvents
 
             // Subscribe to the base class event.
             shape.ShapeChanged += HandleShapeChanged;
+
+            IDrawingObject drawingObject = shape;
+            drawingObject.OnDraw += DrawingObjectOnDrawEventHandler;
+
+            IShape shape1 = shape;
+            shape1.OnDraw += Shape1OnDrawEventHandler;
+        }
+
+        private void Shape1OnDrawEventHandler(object sender, EventArgs e)
+        {
+            Console.WriteLine($"Received IShape event.");
+        }
+
+        private void DrawingObjectOnDrawEventHandler(object sender, EventArgs e)
+        {
+            Console.WriteLine($"Received IDrawingObject event.");
         }
 
         // ...Other methods to draw, resize, etc.
