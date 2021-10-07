@@ -29,6 +29,7 @@
     using ExceptionHandlingInspecting;
     using ExceptionDispatchInfoThrow;
     using HandleProperties;
+    using WeakReferences;
 
     public class Start
     {
@@ -86,9 +87,13 @@
 
             //LearningAttributes.Start();
 
-            LearningReflection.Start();
+            //LearningReflection.Start();
+
+            ////** Garbage Collector **////
 
             //DisposeAndFinalize.Start();
+
+            //WeakReferences.Start();
 
             //StringsAdvanced.Start();
 

@@ -11,7 +11,7 @@ namespace WeakReferences
         public static void Start()
         {
             var result = GetData();
-            // GC.Collect(); Uncommenting this line will make data.Target null
+            //GC.Collect(); //Uncommenting this line will make data.Target null
             result = GetData();
         }
 

@@ -19,6 +19,7 @@ namespace DisposeAndFinalize
                 writer.Flush();
             }
             string xml = stringWriter.ToString();
+            Console.WriteLine(xml);
 
             Console.ReadLine();
         }
