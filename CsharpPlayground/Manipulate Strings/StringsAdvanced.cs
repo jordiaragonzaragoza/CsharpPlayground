@@ -1,12 +1,12 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
-
-namespace StringsAdvanced
+﻿namespace StringsAdvanced
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Xml;
+
     public static class StringsAdvanced
     {
         public static void Start()

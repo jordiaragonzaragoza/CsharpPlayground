@@ -14,13 +14,13 @@
     using ImplementingCollectionInterfaces;
     using DelegateActionPredicateFunc;
     using LambdaSimpleFunc;
-    using LearningAttributes;
+    using Attributes;
     using ThrowingCustomExceptionWithTheOriginal;
-    using LearningReflection;
+    using Reflection;
     using DisposeAndFinalize;
     using StringsAdvanced;
     using DelegateEvent;
-    using LearningAsyncAwait;
+    using SimpleAsyncAwait;
     using Threading;
     using LearningTask;
     using CovarianceContravariance;
@@ -30,10 +30,11 @@
     using ExceptionDispatchInfoThrow;
     using HandleProperties;
     using WeakReferences;
+    using TaskInstantiation;
 
     public class Start
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             ////** Delegates And Events **////
 
@@ -85,9 +86,9 @@
 
             ////** Attributes and Reflection **////
 
-            //LearningAttributes.Start();
+            //Attributes.Start();
 
-            //LearningReflection.Start();
+            //Reflection.Start();
 
             ////** Garbage Collector **////
 
@@ -95,9 +96,15 @@
 
             //WeakReferences.Start();
 
+            ////** Manipulate Strings **////
+
             //StringsAdvanced.Start();
 
-            //LearningAsyncAwait.Start();
+            ////** Threads And Tasks **////
+
+            //await SimpleAsyncAwait.Start();
+
+            await TaskInstantiation.Start();
 
             //Threading.Start();
 

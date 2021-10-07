@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace LearningAsyncAwait
+﻿namespace SimpleAsyncAwait
 {
-    public static class LearningAsyncAwait
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public static class SimpleAsyncAwait
     {
         //La palabra clave await proporciona un modo sin bloqueo para iniciar una tarea y,
         //después, proseguir la ejecución cuando dicha tarea se complete
@@ -23,7 +24,7 @@ namespace LearningAsyncAwait
             var fourSecondsTask = FourSecondsTaskAsync();
 
             var allTasks = new List<Task> { threeSecondsTask, fourSecondsTask, oneSecondTask };
-            while (allTasks.Any())
+            while (allTasks.Count > 0)
             {
                 var finishedTask = await Task.WhenAny(allTasks);
                 if (finishedTask == threeSecondsTask)
@@ -45,6 +46,8 @@ namespace LearningAsyncAwait
             }
 
             Finish();
+
+            Console.ReadLine();
         }
 
         private static void Init()
@@ -89,7 +92,7 @@ namespace LearningAsyncAwait
             Console.WriteLine();
 
             //Composed tasks: async task + sync task = async task
-            var returnedValue = await TenSecondsAsync(); //Async task
+            await TenSecondsAsync(); //Async task
             //Do something with the returned value...
             
             await Task.Delay(1000);

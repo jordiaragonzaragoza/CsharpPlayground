@@ -1,10 +1,10 @@
-﻿namespace LearningAttributes
+﻿namespace Attributes
 {
     using System;
     using System.Diagnostics;
     using System.Linq;
 
-    public static class LearningAttributes
+    public static class Attributes
     {
         public static void Start()
         {
