@@ -8,11 +8,13 @@
     {
         public static async Task Start()
         {
-            SimpleInstanciation();
+            //SimpleInstanciation();
 
-            await TaskFactoryStartNew();
+            //await TaskFactoryStartNew();
 
-            TaskIsCompleted();
+            //TaskIsCompleted();
+
+            TaskExceptions();
 
             Console.ReadLine();
         }
@@ -80,15 +82,85 @@
             try
             {
                 taskA.Wait(1000);       // Wait for completion or 1 second. What happens first.
+
                 bool completed = taskA.IsCompleted;
-                Console.WriteLine("Task A completed: {0}, Status: {1}",
-                                 completed, taskA.Status);
+                Console.WriteLine("Task A completed: {0}, Status: {1}", completed, taskA.Status);
                 if (!completed)
-                    Console.WriteLine("Timed out before task A completed.");
+                { 
+                    Console.WriteLine("Timed out before task A completed."); 
+                }
             }
-            catch (AggregateException ae)
+            catch (AggregateException)
             {
                 Console.WriteLine("Exception in taskA.");
+            }
+        }
+
+        private static void TaskExceptions()
+        {
+            // Create a cancellation token and cancel it.
+            var source1 = new CancellationTokenSource();
+            var tokenCancelled = source1.Token;
+            source1.Cancel();
+
+            // Create a cancellation token for later cancellation.
+            var source2 = new CancellationTokenSource();
+            var tokenWillBeCancelled = source2.Token;
+
+            // Create a series of tasks that will complete, be cancelled, 
+            // timeout, or throw an exception.
+            Task[] tasks = new Task[4];
+            for (int i = 0; i < 4; i++)
+            {
+                switch (i)
+                {
+                    // Task should run to completion.
+                    case 0:
+                        tasks[i] = Task.Run(() => Thread.Sleep(2000));
+                        break;
+                    // Task should be set to canceled state.
+                    case 1:
+                        tasks[i] = Task.Run(() => Thread.Sleep(2000), tokenCancelled);
+                        break;
+                    // Task should throw an exception.
+                    case 2:
+                        tasks[i] = Task.Run(() => { throw new NotSupportedException(); });
+                        break;
+                    // Task should examine cancellation token.
+                    case 3:
+                        tasks[i] = Task.Run(() => {
+                            Thread.Sleep(2000);
+                            if (tokenWillBeCancelled.IsCancellationRequested)
+                                tokenWillBeCancelled.ThrowIfCancellationRequested();
+                            Thread.Sleep(500);
+                        }, tokenWillBeCancelled);
+                        break;
+                }
+            }
+            Thread.Sleep(250);
+            source2.Cancel();
+
+            try
+            {
+                Task.WaitAll(tasks);
+            }
+            catch (AggregateException aggregateException)
+            {
+                Console.WriteLine("One or more exceptions occurred:");
+                foreach (var exception in aggregateException.InnerExceptions)
+                    Console.WriteLine("   {0}: {1}", exception.GetType().Name, exception.Message);
+            }
+
+            Console.WriteLine("Status of tasks:");
+            foreach (var task in tasks)
+            {
+                Console.WriteLine("   Task #{0}: {1}", task.Id, task.Status);
+                if (task.Exception != null)
+                {
+                    foreach (var ex in task.Exception.InnerExceptions)
+                        Console.WriteLine("      {0}: {1}", ex.GetType().Name,
+                                          ex.Message);
+                }
             }
         }
     }
