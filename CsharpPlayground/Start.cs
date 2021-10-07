@@ -80,11 +80,13 @@
 
             //ImplementingCollectionInterfaces.Start();
 
-            HandleProperties.Start();
+            //HandleProperties.Start();
+
+            ////** Attributes and Reflection **////
 
             //LearningAttributes.Start();
 
-            //LearningReflection.Start();
+            LearningReflection.Start();
 
             //DisposeAndFinalize.Start();
 

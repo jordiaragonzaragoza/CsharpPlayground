@@ -1,16 +1,18 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-
-namespace LearningAttributes
+﻿namespace LearningAttributes
 {
+    using System;
+    using System.Diagnostics;
+    using System.Linq;
+
     public static class LearningAttributes
     {
         public static void Start()
         {
             CheckAttributeDefined(typeof(Person), typeof(SerializableAttribute));
-            SearchConditionStringOnConditionalAttribute(typeof(Person), typeof(ConditionalAttribute));
-            
+            CheckAttributeDefined(typeof(Person), typeof(CustomAttribute));
+            SearchCustomAttributesOnTypeMembers(typeof(Person), typeof(ConditionalAttribute));
+            SearchCustomAttributesOnTypeMembers(typeof(Person), typeof(CustomAttribute));
+
             Console.ReadLine();
         }
         
@@ -25,7 +27,7 @@ namespace LearningAttributes
             return false;
         }
 
-        public static void SearchConditionStringOnConditionalAttribute(Type element, Type attributeType)
+        public static void SearchCustomAttributesOnTypeMembers(Type element, Type attributeType)
         {
             var members = element.GetMembers();
 
@@ -37,12 +39,13 @@ namespace LearningAttributes
                     if (attribute is ConditionalAttribute conditionalAttribute)
                     {
                         var condition = conditionalAttribute.ConditionString;
-                        Console.WriteLine($"Class {element.Name} has {attributeType.Name} with value: {condition}");
+                        Console.WriteLine($"Class {element.Name} has {attributeType.Name} with value: {condition} on member: {member.Name}");
                     }
 
-                    else
+                    if (attribute is CustomAttribute customAttribute)
                     {
-                        Console.WriteLine($"Class {element.Name} has {attributeType.Name}");
+                        var description = customAttribute.Description;
+                        Console.WriteLine($"Class {element.Name} has {attributeType.Name} with value: {description} on member: {member.Name}");
                     }
                 }
             }
@@ -53,6 +56,7 @@ namespace LearningAttributes
     }
 
     [Serializable]
+    [Custom("Hello")]
     public class Person
     {
         [Conditional("CONDITION1"), Conditional("CONDITION2")]

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
-namespace LearningReflection
+﻿namespace LearningReflection
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
     public static class LearningReflection
     {
         public static void Start()
         {
-            //ReflectionToExecuteAMethod();
-            var plugins= CreatePluginsInstances("CsharpPlayground");
+            ReflectionToExecuteAMethod();
+
+            var plugins = CreatePluginsInstances("CsharpPlayground");
             Console.WriteLine($"Plugins Created: {plugins.Count()}");
 
             Console.ReadLine();
@@ -22,13 +22,19 @@ namespace LearningReflection
             var i = 42;
             var compareToMethod = i.GetType().GetMethod("CompareTo", new Type[] { typeof(int) });
 
-            var result = (int)compareToMethod.Invoke(i, new object[] { 41 });
+            var parameters = new object[] { 41 };
+
+            var result = (int)compareToMethod.Invoke(i, parameters);
+
+            Console.WriteLine("Invoke CompareTo method through reflection.");
+            Console.WriteLine($"Compare: {i}, between {parameters.FirstOrDefault()}. And result is: {result}");
         }
 
-        //Init classes using reflection in the assembly
+        //Init classes using reflection in the assembly.
         private static IEnumerable<IPlugin> CreatePluginsInstances(string assemblyString)
         {
             var pluginAssembly = Assembly.Load(assemblyString);
+
             var plugins = from type in pluginAssembly.GetTypes()
                           where typeof(IPlugin).IsAssignableFrom(type) && !type.IsInterface
                           select type;
