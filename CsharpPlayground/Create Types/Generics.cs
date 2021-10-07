@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Generics
+﻿namespace Generics
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class Generics
     {
         public static void Start()
@@ -10,18 +10,16 @@ namespace Generics
             var result = new OperationResult<Person>();
             var person = result.Content;
 
-
             var operationResultCar = new OperationResult<Car>();
             var car = new Car("Opel", "Vectra");
             operationResultCar.SetSuccesResponse(car);
 
             var content = operationResultCar.Content;
 
-
             var ej = new GenericsOnSimpleClass();
-            ej.SimpleMethod();
+            GenericsOnSimpleClass.SimpleMethod();
 
-            _ = ej.GenericsExampleMethod(car);
+            _ = GenericsOnSimpleClass.GenericsExampleMethod(car);
         }
     }
 
@@ -42,22 +40,21 @@ namespace Generics
             MessageList.Add(message);
         }
 
-        public void SetSuccesResponse(T obj)
+        public void SetSuccesResponse(T @object)
         {
-            Content = obj;
+            Content = @object;
         }
     }
 
     public class GenericsOnSimpleClass
     {
-        public T GenericsExampleMethod<T>(T x)
+        public static T GenericsExampleMethod<T>(T x)
         {
             return x;
         }
 
-        public void SimpleMethod()
+        public static void SimpleMethod()
         {
-
         }
     }
 
@@ -72,9 +69,10 @@ namespace Generics
         public string Brand { get; set; }
         public string Model { get; set; }
         public Car()
+            : this (string.Empty, string.Empty)
         {
-
         }
+
         public Car(string brand, string model)
         {
             Brand = brand;
@@ -88,16 +86,14 @@ namespace Generics
         public string SubName { get; set; }
 
         public Person()
+            : this (string.Empty, string.Empty)
         {
-
         }
+
         public Person(string name, string subName)
         {
             Name = name;
             SubName = subName;
         }
-
     }
-
-
 }

@@ -1,12 +1,13 @@
-﻿using System;
-
-namespace OverridingMethods
+﻿namespace OverridingMethods
 {
+    using System;
+
     public static class OverridingMethods
     {
         public static void Start()
         {
             var derived = new Derived().FirstMethod();
+
             Console.WriteLine($"Ouput override calling base class: {derived}");
 
             Console.ReadLine();
