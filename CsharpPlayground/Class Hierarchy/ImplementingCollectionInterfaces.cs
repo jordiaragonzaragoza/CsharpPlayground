@@ -10,14 +10,26 @@ namespace ImplementingCollectionInterfaces
         {
             var orders = new List<Order>
             {
-                new Order { Created = new DateTime(2012, 12, 1 )},
-                new Order { Created = new DateTime(2012, 1, 6 )},
-                new Order { Created = new DateTime(2012, 7, 8 )},
-                new Order { Created = new DateTime(2012, 2, 20 )},
+                new Order { Id = 1, Created = new DateTime(2012, 12, 1 )},
+                new Order { Id = 2, Created = new DateTime(2012, 1, 6 )},
+                new Order { Id = 3, Created = new DateTime(2012, 7, 8 )},
+                new Order { Id = 4, Created = new DateTime(2012, 2, 20 )},
             };
             orders.Sort();
+
+            Console.WriteLine("Orders created sorted by date.");
+            foreach (var order in orders)
+            {
+                Console.WriteLine($"Id: {order.Id}, Date: {order.Created}");
+            }
+
+            Console.WriteLine("Example using GetEnumerator for List<T>.");
+            SugarForeachStatement();
+
+            Console.ReadLine();
         }
         
+        // How works a foreach statement.
         private static void SugarForeachStatement()
         {
             var numbers = new List<int> { 1, 2, 3, 5, 7, 9 };
@@ -31,23 +43,25 @@ namespace ImplementingCollectionInterfaces
         }
     }
 
-
     public class Order : IComparable
     {
+        public int Id { get; set; }
+
         public DateTime Created { get; set; }
-        public int CompareTo(object obj)
+
+        public int CompareTo(object @object)
         {
-            if (obj == null)
+            if (@object == null)
             {
                 return 1;
             }
 
-            if (!(obj is Order o))
+            if (@object is not Order order)
             {
                 throw new ArgumentException("Object is not an Order");
             }
 
-            return Created.CompareTo(o.Created); //Calls to DateTime CompareTo()
+            return this.Created.CompareTo(order.Created); //Calls to DateTime CompareTo()
         }
     }
 
@@ -84,6 +98,7 @@ namespace ImplementingCollectionInterfaces
                 yield return people[index];
             }
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

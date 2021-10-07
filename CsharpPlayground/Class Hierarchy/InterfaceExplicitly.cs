@@ -23,13 +23,15 @@ namespace InterfaceExplicitly
 
     public interface IInterfaceExplicit
     {
-        int MyMethod();
+        public int MyMethod();
     }
+
     public class ExplicitImplementation : IInterfaceExplicit
     {
         //Implementation and mark method as interface explicit including interface name.
+        //It's required on classes with multiple interface implementation with the same method name and signatures.
         //This force cast to the interface to use the method.
-        int IInterfaceExplicit.MyMethod() 
+        int IInterfaceExplicit.MyMethod()
         {
             return 5;
         }

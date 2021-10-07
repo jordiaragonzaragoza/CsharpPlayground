@@ -19,7 +19,11 @@ namespace IntefaceAndGenerics
             Console.WriteLine($"Orders filtered on amount: {amount} are: {result.Count()}");
 
             var orderFinded = orderRepository.FindById(12);
-            Console.WriteLine($"Order find by id: {orderFinded.Id} has amount: {orderFinded.Amount}");
+
+            if (orderFinded is not null)
+            {
+                Console.WriteLine($"Order find by id: {orderFinded.Id} has amount: {orderFinded.Amount}");
+            }
 
             Console.ReadLine();
         }
@@ -28,6 +32,18 @@ namespace IntefaceAndGenerics
     public interface IEntity
     {
         int Id { get; }
+    }
+
+    public class Order : IEntity
+    {
+        public int Id { get; }
+
+        public int Amount { get; set; }
+        public Order(int id, int amount)
+        {
+            Id = id;
+            Amount = amount;
+        }
     }
 
     public class Repository<T> where T : IEntity
@@ -42,18 +58,6 @@ namespace IntefaceAndGenerics
         public T FindById(int id)
         {
             return elements.SingleOrDefault(e => e.Id == id);
-        }
-    }
-
-    public class Order : IEntity
-    {
-        public int Id { get; }
-
-        public int Amount { get; set; }
-        public Order(int id, int amount)
-        {
-            Id = id;
-            Amount = amount;
         }
     }
 

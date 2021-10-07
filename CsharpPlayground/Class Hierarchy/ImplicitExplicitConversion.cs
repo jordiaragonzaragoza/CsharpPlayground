@@ -7,20 +7,25 @@ namespace ImplicitExplicitConversion
     {
         public static void Start()
         {
-            var m = new Money(42.42M);
-            decimal amount = m;
+            var money = new Money(42.42M);
+
+            decimal amount = money;
 
             Console.WriteLine($"Implicit Operator: {amount}");
 
-            var truncatedAmount = (int)m;
+            var truncatedAmount = (int)money;
 
             Console.WriteLine($"Explicit Operator: {truncatedAmount}");
+
+
+            var truncatedAmountDouble = (double)money;
+
+            Console.WriteLine($"Explicit Operator (double): {truncatedAmountDouble}");
 
             Console.ReadLine();
         
         }
     }
-
 
     public class Money
     {
@@ -43,13 +48,19 @@ namespace ImplicitExplicitConversion
             return (int)money.Amount;
         }
 
+        //Declare explicit operator
+        public static explicit operator double(Money money)
+        {
+            return (double)money.Amount;
+        }
+
         public static void BuiltInConvertAndParse()
         {
             int value = Convert.ToInt32("42");
-            value = int.Parse("42");
-            bool success = int.TryParse("42", out value);
 
-            var n = new MemoryStream();
+            value = int.Parse("42");
+
+            bool success = int.TryParse("42", out value);
         }
     }
 }

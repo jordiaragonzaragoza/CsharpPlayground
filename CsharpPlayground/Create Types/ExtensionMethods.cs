@@ -16,6 +16,7 @@ namespace ExtensionMethods
     {
         public decimal Price { get; set; }
     }
+
     public static class CalculatorExtensions
     {
         //The method must be static and first parameter with this. And in same namespace.
@@ -27,9 +28,9 @@ namespace ExtensionMethods
     }
     public static class Calculator
     {
-        public static decimal CalculateDiscount(Product p)
+        public static decimal CalculateDiscount(Product product)
         {
-            return p.Discount();
+            return product.Discount();
         }
     }
 }

@@ -28,10 +28,10 @@
     using ActionExposeEvent;
     using ExceptionHandlingInspecting;
     using ExceptionDispatchInfoThrow;
+    using HandleProperties;
 
     public class Start
     {
-       
         public static void Main(string[] args)
         {
             ////** Delegates And Events **////
@@ -63,12 +63,14 @@
             //ThrowingCustomExceptionWithTheOriginal.Start();
 
             ////** CreateTypes **////
-            
+
             //ExtensionMethods.Start();
 
             //OverridingMethods.Start();
 
-            Generics.Start();
+            //Generics.Start();
+
+            ////** Class Hierarchy **////
 
             //ImplicitExplicitConversion.Start();
 
@@ -77,6 +79,8 @@
             //IntefaceAndGenerics.Start();
 
             //ImplementingCollectionInterfaces.Start();
+
+            HandleProperties.Start();
 
             //LearningAttributes.Start();
 
