@@ -95,7 +95,7 @@
             await TenSecondsAsync(); //Async task
             //Do something with the returned value...
             
-            await Task.Delay(1000);
+            await Task.Delay(1000); //Launch a task that completes after a specified number of milliseconds.
             Console.WriteLine("-----Task OneSecondTaskAsync done!");
 
             return 1;
@@ -107,7 +107,7 @@
             Console.WriteLine($"Thead: {Thread.CurrentThread.ManagedThreadId}");
             Console.WriteLine();
 
-            await Task.Delay(10000);
+            await Task.Delay(10000); //Launch a task that completes after a specified number of milliseconds.
             Console.WriteLine("-----Task TenSecondsAsync done!");
 
             return 10;
