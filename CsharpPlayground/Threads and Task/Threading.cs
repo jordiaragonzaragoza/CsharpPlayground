@@ -138,7 +138,7 @@ namespace Threading
             {
                 new Thread(Go).Start();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // We'll never get here!
                 Console.WriteLine("Exception!");
