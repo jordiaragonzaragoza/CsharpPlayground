@@ -102,9 +102,9 @@
 
             ////** Threads And Tasks **////
 
-            //await SimpleAsyncAwait.Start();
+            await SimpleAsyncAwait.Start();
 
-            await TaskInstantiation.Start();
+            //await TaskInstantiation.Start();
 
             //Threading.Start();
 
