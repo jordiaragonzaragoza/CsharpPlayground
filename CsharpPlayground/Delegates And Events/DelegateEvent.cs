@@ -8,8 +8,8 @@ namespace DelegateEvent
         {
             var subscriber = new Subscriber();
 
-            Publisher.Sum(5,6);
-            Publisher.Subtraction(1,1);
+            Publisher.Sum(5, 6);
+            Publisher.Subtraction(1, 1);
             Publisher.Multiply(5, 5);
 
             Console.ReadLine();
@@ -21,7 +21,7 @@ namespace DelegateEvent
         //An event is a encapsulated delegate
         public delegate void SumEventHandler();
         public static event SumEventHandler OnSumDone;
-        
+
         public static void Sum(int a, int b)
         {
             var operation = a + b;
@@ -36,7 +36,7 @@ namespace DelegateEvent
             }
         }
 
-        public delegate bool SubtractionEventHandler (string text, int number);
+        public delegate bool SubtractionEventHandler(string text, int number);
         public static event SubtractionEventHandler OnSubtractionDone;
 
         public static void Subtraction(int a, int b)
@@ -55,14 +55,14 @@ namespace DelegateEvent
         }
 
         //1. Declare the delegate and its inputs and output parameters.
-        public delegate bool MultiplyEventHandler (object sender, MultiplyEventArgs e);
+        public delegate bool MultiplyEventHandler(object sender, MultiplyEventArgs e);
 
         //2. Declare the event supported by the delegate.
         //3. Assigning the method default delegate to avoid NULL if no one is subscribed. 
-        private static event MultiplyEventHandler _onMultiplyDone = defaultOnMultiplyDoneHandler;
+        private static event MultiplyEventHandler _onMultiplyDone = DefaultOnMultiplyDoneHandler;
 
-        //4. Create a method for the delegate.
-        private static bool defaultOnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
+        //4. Create a default method for the delegate.
+        private static bool DefaultOnMultiplyDoneHandler(object sender, MultiplyEventArgs e)
         {
             //In addition you will always receive true by default.
             return true;
@@ -93,32 +93,32 @@ namespace DelegateEvent
             }
         }
 
-        private static void RaiseMultiplyDone(int operation, string message)
+        private static void RaiseMultiplyDone(int multiplyOperationResult, string message)
         {
-             //6. Raise the event with its custom args. Not need it to null check.
-             var returnedValue = _onMultiplyDone(null, new MultiplyEventArgs(operation, message));
+            //6. Raise the event with its custom args. Not need it to null check.
+            var returnedValue = _onMultiplyDone(null, new MultiplyEventArgs(multiplyOperationResult, message));
 
-             if (_onMultiplyDone == defaultOnMultiplyDoneHandler)
-             {
-                 //Default value
-                 Console.WriteLine($"Multiply done. But no subscribers.");
-             }
-             else
-             {
-                 //Has subscribers.
-                 //The return value will be the last one that was subscribed.
-                 Console.WriteLine($"And last subscriber returned value is: {returnedValue}");
-             }
+            if (_onMultiplyDone == DefaultOnMultiplyDoneHandler)
+            {
+                //Default value
+                Console.WriteLine($"Multiply done. But no subscribers.");
+            }
+            else
+            {
+                //Has subscribers.
+                //The return value will be the last one that was subscribed.
+                Console.WriteLine($"And last subscriber returned value is: {returnedValue}");
+            }
         }
-        
+
         public static void Multiply(int a, int b)
         {
-            var operation = a * b;
-            RaiseMultiplyDone(operation, "Multiply had been executed");
+            var multiplyOperationResult = a * b;
+            RaiseMultiplyDone(multiplyOperationResult, "Multiply had been executed");
         }
     }
 
-    public class Subscriber: IDisposable
+    public class Subscriber : IDisposable
     {
         public Subscriber()
         {
@@ -128,7 +128,7 @@ namespace DelegateEvent
             //7. Subscribe to the event.
             Publisher.OnMultiplyDone += OnMultiplyDoneEventHandler;
         }
-        
+
         private static void OnSumDoneEventHandler()
         {
             Console.WriteLine("Sum had been executed");
@@ -139,14 +139,14 @@ namespace DelegateEvent
             //Make some logic with passed parameters
             //and return the result.
             Console.WriteLine($"Subtraction had been executed. Result is: {number}");
-            
+
             return true;
         }
 
         private bool OnMultiplyDoneEventHandler(object sender, MultiplyEventArgs e)
         {
             //8. Manage the event.
-            Console.WriteLine($"{e.Message}. Result is: {e.Value}");
+            Console.WriteLine($"{e.Message}. Result is: {e.MultiplyOperationResult}");
 
             return true;
         }
@@ -163,12 +163,12 @@ namespace DelegateEvent
 
     public class MultiplyEventArgs : EventArgs
     {
-        public int Value { get; set; }
+        public int MultiplyOperationResult { get; set; }
 
         public string Message { get; set; }
-        public MultiplyEventArgs(int value, string message)
+        public MultiplyEventArgs(int multiplyOperationResult, string message)
         {
-            Value = value;
+            MultiplyOperationResult = multiplyOperationResult;
             Message = message;
         }
     }

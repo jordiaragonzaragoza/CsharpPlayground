@@ -30,7 +30,7 @@
 
         public bool Process()
         {
-            throw new MessageQueueException(Id);
+            throw new MessageQueueException(Id, "Custom error message");
         }
     }
 
@@ -44,24 +44,24 @@
 
         public MessageQueueException(int id)
             : this(id, null, null)
-        {   
+        {
         }
 
-        public MessageQueueException(int id, string message) 
-            : this (id, message, null)
-        {   
+        public MessageQueueException(int id, string message)
+            : this(id, message, null)
+        {
         }
 
-        public MessageQueueException(int id, string message, Exception innerException) 
+        public MessageQueueException(int id, string message, Exception innerException)
             : base(message, innerException)
         {
             Id = id;
         }
     }
-    
+
     public sealed class OrderProcessingException : MessageQueueException
     {
-        public OrderProcessingException(int orderId) 
+        public OrderProcessingException(int orderId)
             : this(orderId, null)
         {
         }
@@ -82,7 +82,7 @@
         {
             if (info == null)
             {
-                throw new ArgumentNullException("info");
+                throw new ArgumentNullException(nameof(info));
             }
 
             Id = (int)info.GetValue("Id", typeof(int));
@@ -93,7 +93,7 @@
         {
             if (info == null)
             {
-                throw new ArgumentNullException("info");
+                throw new ArgumentNullException(nameof(info));
             }
 
             info.AddValue("Id", Id, typeof(int));

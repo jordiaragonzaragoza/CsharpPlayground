@@ -9,7 +9,7 @@ namespace DelegateActionPredicateFunc
     //Action:    works as delegate but it returns void
     //Predicate: works as delegate but it returns a bool
     //Func:      works as delegate but with a required output of any type.
-    
+
     //Declare a delegate. It is not required inside a class.
     public delegate void PrintDelegate(string value);
 
@@ -91,7 +91,7 @@ namespace DelegateActionPredicateFunc
             Action<string> consolePrintAction = ConsolePrint;
             consolePrintAction("I'm an action.");
         }
-        
+
         public static void DelegateUsingActionAnonymous()
         {
             //Now using a new anonymous method to print on console.
@@ -99,7 +99,7 @@ namespace DelegateActionPredicateFunc
             Action consolePrintAnonymousActionWithoutParameter = delegate { Console.WriteLine("I'm an action using an anonymous method without parameter."); };
             consolePrintAnonymousActionWithoutParameter();
 
-            Action<string> consolePrintAnonymousAction = delegate(string value) { Console.WriteLine(value); };
+            Action<string> consolePrintAnonymousAction = delegate (string value) { Console.WriteLine(value); };
             consolePrintAnonymousAction("I'm an action using an anonymous method");
 
             //Now using a new anonymous method with lambda to print on console.
@@ -120,7 +120,7 @@ namespace DelegateActionPredicateFunc
         {
             //Func works as delegate but with a required output of any type. Allows to 16 input parameters. Latest parameter is the output.
             //Func will be used massive on LINQ
-            Func<string, string> consolePrintAnonymousFunc = delegate(string value)
+            Func<string, string> consolePrintAnonymousFunc = delegate (string value)
             {
                 Console.WriteLine(value);
                 return string.Empty;
@@ -173,7 +173,7 @@ namespace DelegateActionPredicateFunc
             Console.WriteLine("Im a delegate executed from other class!");
             return true;
         }
-    
+
         public static void PassingAction(Action<string> action)
         {
             action("Im an action executed from other class!");

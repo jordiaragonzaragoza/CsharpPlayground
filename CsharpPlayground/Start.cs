@@ -44,7 +44,7 @@
 
             //DelegateActionPredicateFunc.Start();
 
-            //DelegateEvent.Start();
+            DelegateEvent.Start();
 
             //CustomEventArguments.Start();
 
@@ -102,7 +102,7 @@
 
             ////** Threads And Tasks **////
 
-            await SimpleAsyncAwait.Start();
+            ///await SimpleAsyncAwait.Start();
 
             //await TaskInstantiation.Start();
 
